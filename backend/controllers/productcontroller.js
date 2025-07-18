@@ -6,13 +6,13 @@ exports.createPro = async (req, res) => {
         if (!title || !description) {
             res.status(400).json({ message: "all feilds are required" })
         }
-        const newproduct = new Product({
+        const newProduct = new Product({
             title,
             description,
             user: req.user.id
         })
-        await newproduct.save();
-        res.json(newproduct)
+        await newProduct.save();
+        res.status(201).json(newProduct)
     } catch (error) {
         res.status(500).json({ message: "product create unsuccessfull" })
     }

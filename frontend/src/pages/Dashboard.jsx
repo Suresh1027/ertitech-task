@@ -8,12 +8,13 @@ function Dashboard() {
         description: ""
     })
     console.log(getdata);
+    const token = localStorage.getItem("token")
 
     useEffect(() => {
         async function fetch() {
             try {
                 const res = await axios.get('http://localhost:5000/products/get', {
-                    headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+                    headers: { Authorization: `Bearer ${token}` }
                 })
                 setGetdata(res.data);
             } catch (error) {
@@ -24,13 +25,15 @@ function Dashboard() {
         fetch()
     }, [])
 
-    function handlechange(e) {
+    const handlechange = (e) => {
         setPost({ ...post, [e.target.name]: e.target.value })
     }
     async function handlesubmit(e) {
         e.preventDefault()
         try {
-            const res = await axios.post('http://localhost:5000/products/create', post)
+            const res = await axios.post('http://localhost:5000/products/create', post, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             alert("created succesfully")
         } catch (error) {
             console.log("server error");
@@ -54,7 +57,7 @@ function Dashboard() {
             </div>
             <div style={{ backgroundColor: "grey", display: "flex", justifyContent: "center", alignItems: "center" }}>
                 {getdata.map((get) => (
-                    <div>
+                    <div key={get._id}>
                         <h2>{get.title}</h2>
                         <h2>{get.description}</h2>
                     </div>
