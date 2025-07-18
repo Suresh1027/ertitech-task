@@ -17,7 +17,13 @@ exports.register = async (req, res) => {
         })
         await newUser.save()
 
-        res.json({ message: "registration successfull" }, newUser)
+        res.status(201).json({
+            message: "Registration successful", user: {
+                id: newUser._id,
+                username: newUser.username,
+                email: newUser.email
+            }
+        });
     }
     catch (error) {
         res.status(500).json({ message: "registeration unsuccessfull" })
@@ -44,7 +50,7 @@ exports.login = async (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
-        
+
         res.json({ user: { id: user._id, username: user.username }, token })
     } catch (error) {
         res.status(500).json({ message: "server error" })

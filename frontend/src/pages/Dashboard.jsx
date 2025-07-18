@@ -30,9 +30,7 @@ function Dashboard() {
     async function handlesubmit(e) {
         e.preventDefault()
         try {
-            const res = await axios.post('http://localhost:5000/products/create', post, {
-                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-            })
+            const res = await axios.post('http://localhost:5000/products/create', post)
             alert("created succesfully")
         } catch (error) {
             console.log("server error");

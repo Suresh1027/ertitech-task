@@ -8,7 +8,8 @@ exports.createPro = async (req, res) => {
         }
         const newproduct = new Product({
             title,
-            description
+            description,
+            user: req.user.id
         })
         await newproduct.save();
         res.json(newproduct)
@@ -18,11 +19,13 @@ exports.createPro = async (req, res) => {
 }
 
 exports.getPro = async (req, res) => {
+
     try {
-        const product = await Product.find()
-        if (!product) {
-            res.status(400).json({ message: "no Product" })
+        const product = await Product.find({ user: req.user.id })
+        if (product.length === 0) {
+            return res.status(404).json({ message: "No products found" });
         }
+
         res.json(product)
     } catch (error) {
         res.status(500).json({ message: "server error" })

@@ -7,11 +7,12 @@ const productSchema = new mongoose.Schema({
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user"
+        ref: "user",
+        required: true
     },
     description: {
         type: String,
         required: true
     }
-})
+}, { timestamps: true })
 module.exports = mongoose.model("Product", productSchema)
